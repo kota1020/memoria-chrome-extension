@@ -13,7 +13,7 @@ Memoriaのローカルread API（既定 `http://127.0.0.1:4319`）が起動し�
 
 ## ローカルで試す
 
-1. `extension/` を `chrome://extensions` の「パッケージ化されていない拡張機能を読み込む」から読み込む
+1. リポジトリのルート（`~/memoria-chrome-extension`）を `chrome://extensions` の「パッケージ化されていない拡張機能を読み込む」から読み込む
 2. Memoria read APIを起動する
 3. 拡張アイコンを押してサイドパネルを開く
 
