@@ -1,0 +1,84 @@
+{
+  "manifest_version": 3,
+  "name": "Memoria Context Faucet",
+  "version": "0.3.0",
+  "description": "今開いているページに関係するMemoriaの記憶を、確認つきで思い出します（外部送信なし・ローカル通信のみ）",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqn9MqQKthqM3epmGvwh/1I/aEBJL5JcR+kQxOU6cic8vAq8eWBvoS5rIqXpzPZYyHkw+Qrn37yRS2fip7hPgTCdMrbXEBrnF8Ms24UQ83J4ab5Dysy0vh2C4i7UGfkpkEnRuxUlS52Bs4ObbMFKX1dGpVQciYd5Kp4mJdNcDo/ldHXxAG7K+8PHJEgK6DAxBYiPcNdWMga2xYz0hhGSleZVkNAmCi5oA8Gti3TFFkTeEkvfthcECMeV/nypU/3LQo87NpDhOixas30cxiHtTGjC4V1v5x5FJK5gWBLj2gj+Pb0pNqJMW2tgZJ5CmQaT4ikGdVA//uvwdyOqwczRxhwIDAQAB",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "nativeMessaging",
+    "storage",
+    "scripting",
+    "activeTab",
+    "tabs",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://claude.ai/*",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://gemini.google.com/*",
+    "http://127.0.0.1:4319/*"
+  ],
+  "action": {
+    "default_title": "Memoriaを思い出す",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "shared/page-boot.js",
+        "shared/page-hook.js",
+        "shared/anonymize.js",
+        "shared/content-bridge.js",
+        "shared/protocol.js",
+        "shared/capture-core.js",
+        "shared/dom-structure.js",
+        "shared/content-capture.js",
+        "shared/providers.js",
+        "shared/outcome-capture.js",
+        "shared/handoff.js"
+      ],
+      "matches": [
+        "https://claude.ai/*",
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*"
+      ]
+    }
+  ],
+  "optional_host_permissions": [
+    "https://mail.google.com/*",
+    "https://*/*"
+  ]
+}

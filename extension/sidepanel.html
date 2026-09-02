@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Memoria</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">MEMORIA</p>
+      <h1>思い出す</h1>
+    </div>
+    <button id="refresh" class="icon-button" type="button" aria-label="更新">↻</button>
+  </header>
+  <main>
+    <section class="page-context card">
+      <p class="section-label">現在のページ</p>
+      <p id="page-title" class="page-title">読み込み中…</p>
+      <p id="page-host" class="muted"></p>
+      <p id="selection" class="selection"></p>
+    </section>
+    <p id="status" class="status" role="status">Memoriaを確認しています…</p>
+    <section>
+      <div class="section-heading"><h2>このページに関連する記憶</h2><span id="card-count" class="count"></span></div>
+      <div id="cards" class="stack"></div>
+    </section>
+    <section>
+      <div class="section-heading"><h2>いまの文脈</h2></div>
+      <div id="context" class="stack"></div>
+    </section>
+  </main>
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>
