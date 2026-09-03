@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Memoria Context Faucet",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "今開いているページに関係するMemoriaの記憶を、確認つきで思い出します（外部送信なし・ローカル通信のみ）",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqn9MqQKthqM3epmGvwh/1I/aEBJL5JcR+kQxOU6cic8vAq8eWBvoS5rIqXpzPZYyHkw+Qrn37yRS2fip7hPgTCdMrbXEBrnF8Ms24UQ83J4ab5Dysy0vh2C4i7UGfkpkEnRuxUlS52Bs4ObbMFKX1dGpVQciYd5Kp4mJdNcDo/ldHXxAG7K+8PHJEgK6DAxBYiPcNdWMga2xYz0hhGSleZVkNAmCi5oA8Gti3TFFkTeEkvfthcECMeV/nypU/3LQo87NpDhOixas30cxiHtTGjC4V1v5x5FJK5gWBLj2gj+Pb0pNqJMW2tgZJ5CmQaT4ikGdVA//uvwdyOqwczRxhwIDAQAB",
   "minimum_chrome_version": "116",
@@ -40,6 +40,19 @@
     "service_worker": "background.js"
   },
   "content_scripts": [
+    {
+      "matches": [
+        "https://claude.ai/*",
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "shared/handoff-gate.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
     {
       "matches": [
         "https://claude.ai/*",

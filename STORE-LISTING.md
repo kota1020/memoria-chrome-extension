@@ -167,7 +167,20 @@ nothing from disk or the network.
 
 ## 未対応・次のバージョン以降
 
-- **AIの入力欄への記憶の受け渡し（handoff）** — 1.0.0 には含めていない。
+- **AIの入力欄への記憶の受け渡し（handoff）** — 1.0.0 には含めていない。1.0.0 の審査が通ってから 1.1.0 で足す。
+
   2026-09-03 に Gemini 実機で確認したところ、送信を止めきる前に Gemini 側が先に送信してしまい、
-  二重送信になりうることが分かったため。claude.ai / chatgpt.com / gemini.google.com への
-  ホスト権限は 1.0.0 では一切要求していない。実装はリポジトリ直下の開発版に残してある。
+  二重送信になりうることが分かったため外した。**同日、原因の特定と修正まで済んでいる。**
+
+  原因は登録タイミングではなく world の違いだった。拡張の content script は ISOLATED world で動くため、
+  そこから `stopImmediatePropagation()` を呼んでもページ側のリスナーには効かない
+  （`preventDefault()` は共有されるが、Gemini は `defaultPrevented` を見ずに送信する）。
+  `document` を `window` に変えても、`document_start` に前倒ししても同じだった。
+
+  修正は `shared/handoff-gate.js` を MAIN world の content script として document_start に置き、
+  送信を1回止める役だけをそこに持たせる形。何を渡すかの判断とパネルは ISOLATED 側のまま。
+  Gemini 実機で、渡す場合・渡さない場合とも「1回だけ送信される」ことを確認済み（開発版 0.4.0）。
+
+  1.1.0 で出す場合、`https://claude.ai/*` `https://chatgpt.com/*` `https://chat.openai.com/*`
+  `https://gemini.google.com/*` のホスト権限と MAIN world の content script が増えるため、
+  権限理由とプライバシーポリシー（入力欄の下書きを読む点）を書き足す必要がある。

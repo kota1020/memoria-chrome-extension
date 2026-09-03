@@ -196,28 +196,35 @@ function showPanel({ cards, label }) {
   });
 }
 
-/// content script から呼ぶ入口。
+/// content script から呼ぶ入口（ISOLATED world 側）。
 ///   fetchCards(query) … background 経由で /handoff を引く（Promise<cards[]>）
 ///   getMode()/setMode(mode) … 'ask' | 'auto' | 'off'（provider ごと。storage は呼び出し側）
+///
+/// 送信を止めるのは MAIN world の handoff-gate.js。ここは止まった知らせを受けて
+/// 「何を渡すか」を決め、入力欄へ足してから、門を開けるよう頼むだけ。
+/// ISOLATED から直接止められないことは 2026-09-03 に Gemini 実測で確認済み
 export function installHandoff({ profile, fetchCards, getMode, setMode, onStage }) {
   if (!profile || window.__memoriaHandoffInstalled) return () => {};
   window.__memoriaHandoffInstalled = true;
-  let bypassOnce = false;
-  let busy = false;
+  const CHANNEL = 'memoria-handoff-gate';
   const stage = (name, detail) => { try { onStage?.(name, detail); } catch { /* noop */ } };
+  const toGate = (message) => window.postMessage({ __memoria: CHANNEL, toGate: true, ...message }, location.origin);
 
-  async function intercept(event, composer) {
-    if (bypassOnce) { bypassOnce = false; return; }
-    if (busy) { event.preventDefault(); event.stopImmediatePropagation(); return; }
-    const draft = readDraft(composer);
-    const mode = await getMode();
-    if (!shouldIntercept({ draft, mode })) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  let busy = false;
+
+  async function onHeld() {
+    if (busy) return;
     busy = true;
     try {
+      const composer = firstMatch(profile.composer);
+      const draft = readDraft(composer);
+      const mode = await getMode();
+      if (!composer || !shouldIntercept({ draft, mode })) { toGate({ type: 'release' }); return; }
+
       let cards = [];
-      try { cards = await fetchCards(extractQuery(draft)); } catch (error) { stage('handoff_api_unavailable', String(error && error.message)); }
+      try { cards = await fetchCards(extractQuery(draft)); }
+      catch (error) { stage('handoff_api_unavailable', String(error && error.message)); }
+
       let chosen = null;
       if (cards.length) {
         if (mode === 'auto') chosen = { cards, auto: true };
@@ -232,33 +239,25 @@ export function installHandoff({ profile, fetchCards, getMode, setMode, onStage 
       } else {
         stage(cards.length ? 'handoff_skipped' : 'handoff_no_cards');
       }
-      bypassOnce = true;
-      const how = resend(profile, composer);
-      stage('handoff_resent', how);
-      // 再送が拾われなかった時のため、少し待って bypass を解く（次の手動送信で二重に止めない）
-      setTimeout(() => { bypassOnce = false; }, 1500);
+      toGate({ type: 'release' });
     } finally { busy = false; }
   }
 
-  const onKeydown = (event) => {
-    if (event.key !== 'Enter' || event.shiftKey || event.isComposing || event.keyCode === 229) return;
-    const composer = firstMatch(profile.composer);
-    if (!composer || !composer.contains(event.target)) return;
-    intercept(event, composer);
+  const onMessage = (event) => {
+    if (event.source !== window) return;
+    const data = event.data;
+    if (!data || data.__memoria !== CHANNEL || data.toGate) return;
+    if (data.type === 'held') { onHeld(); return; }
+    if (data.type === 'ready') { stage('handoff_gate_ready', profile.id); return; }
+    if (data.type === 'released') { stage('handoff_resent', data.how); return; }
   };
-  const onClick = (event) => {
-    const btn = event.target?.closest?.(profile.send.join(','));
-    if (!btn) return;
-    const composer = firstMatch(profile.composer);
-    if (!composer) return;
-    intercept(event, composer);
-  };
-  document.addEventListener('keydown', onKeydown, true);
-  document.addEventListener('click', onClick, true);
+
+  window.addEventListener('message', onMessage);
+  toGate({ type: 'config', composer: profile.composer, send: profile.send });
   stage('handoff_installed', profile.id);
+
   return () => {
-    document.removeEventListener('keydown', onKeydown, true);
-    document.removeEventListener('click', onClick, true);
+    window.removeEventListener('message', onMessage);
     window.__memoriaHandoffInstalled = false;
   };
 }
