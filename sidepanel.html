@@ -19,17 +19,40 @@
       <p class="section-label">現在のページ</p>
       <p id="page-title" class="page-title">読み込み中…</p>
       <p id="page-host" class="muted"></p>
-      <p id="selection" class="selection"></p>
+      <p id="selection" class="selection" hidden></p>
     </section>
+
     <p id="status" class="status" role="status">Memoriaを確認しています…</p>
-    <section>
+
+    <section id="offline" class="offline card" hidden>
+      <p class="offline-title">Memoriaにつながっていません</p>
+      <p class="offline-reason" id="offline-reason"></p>
+      <p class="offline-lead">この拡張機能は、あなたのMacの中で動くMemoriaの読み取りAPI（<code class="api-url"></code>）だけを見ています。つながるまで表示できる記憶はありません。</p>
+      <ol class="offline-steps">
+        <li>MacでMemoria本体を起動する</li>
+        <li>読み取りAPIが <code class="api-host"></code> で待ち受けているか確認する</li>
+        <li>上の ↻ を押して読み込み直す</li>
+      </ol>
+      <p class="offline-note">Memoriaを持っていない場合、この拡張機能は何も表示しません。閲覧しているページには一切手を加えず、外部サーバーへも送信しません。</p>
+      <p class="offline-link"><a id="offline-help" href="https://github.com/kota1020/memoria-chrome-extension#readme" target="_blank" rel="noreferrer">Memoriaの入手と起動について</a></p>
+    </section>
+
+    <section id="resume-section" hidden>
+      <div class="section-heading"><h2>続きから</h2><span id="resume-count" class="count"></span></div>
+      <div id="resume" class="stack"></div>
+    </section>
+
+    <section id="cards-section">
       <div class="section-heading"><h2>このページに関連する記憶</h2><span id="card-count" class="count"></span></div>
       <div id="cards" class="stack"></div>
     </section>
-    <section>
+
+    <section id="context-section">
       <div class="section-heading"><h2>いまの文脈</h2></div>
       <div id="context" class="stack"></div>
     </section>
+
+    <p class="foot">記憶はこのMacの中だけ。外部サーバーへの送信はありません。</p>
   </main>
   <script type="module" src="sidepanel.js"></script>
 </body>

@@ -135,7 +135,6 @@ function buildRecord(payload, origin) {
       capture_method: payload.capture_method || 'direct_web',
       id_source: payload.id_source || 'official',
       completion_evidence: payload.completion_evidence,
-      completion_evidence: payload.completion_evidence,
       provider_metadata: payload.provider_metadata,
       occurred_at: payload.occurred_at,
     };
@@ -265,8 +264,6 @@ async function reinjectOpenTabs(reason) {
   for (const tab of tabs) {
     if (!tab.id) continue;
     try {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id }, files: ['early-hook.js'], world: 'MAIN' });
       await chrome.scripting.executeScript({
         target: { tabId: tab.id }, files: ['content.js'], world: 'ISOLATED' });
       injected += 1;

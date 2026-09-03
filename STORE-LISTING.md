@@ -1,48 +1,173 @@
-# Chrome Web Store Listing Draft
+# Chrome Web Store 申請フォーム記入内容（v1.0.0）
 
-## Store title
+Developer Dashboard の各欄へ、このまま貼れる形にしてある。
+アップロードするZIPは `dist/memoria-context-faucet-1.0.0.zip`（`node scripts/build-store.mjs` で生成）。
 
+---
+
+## Store listing タブ
+
+### Name（Store title / 最大75文字）
+
+```
 Memoria Context Faucet
+```
 
-## Short description
+### Summary（Short description / 最大132文字）
 
-今開いているページに関係するMemoriaの記憶を、確認つきで思い出します。
+```
+今開いているページに関係する自分の記憶を、Mac内のMemoriaから思い出すサイドパネル。外部サーバーへの送信はありません。
+```
 
-## Detailed description
+### Description（Detailed description）
 
-Memoria Context Faucetは、現在のページに関係するあなたの記憶・判断・タスクを、Chromeのサイドパネルで確認できる拡張機能です。
+```
+Memoria Context Faucet は、いま開いているページに関係する「自分の記憶」を、Chromeのサイドパネルに並べる拡張機能です。
 
-ページ本文を収集するのではなく、ページタイトル、ドメイン、ユーザーが明示的に選択したテキストだけを検索手がかりにして、ユーザー自身のMac上で動くMemoria read APIから関連カードを表示します。
+■ 何をするか
 
-主な機能:
+・現在のページのタイトルとドメイン、そして選択したテキストだけを手がかりにします
+・その手がかりを、あなたのMacの中で動く Memoria の読み取りAPI（http://127.0.0.1:4319）へ渡します
+・返ってきた「このページに関連する記憶」「続きから（作業中・中断中のタスク）」「いまの文脈」を表示します
 
-- 現在のページに関連する記憶カードの表示
-- 現在のタスクとfactsの確認
-- Claude / ChatGPT / Geminiへの確認付きhandoff
-- ローカルファースト設計。外部クラウドへの送信なし
+■ 何をしないか
 
-利用には、ユーザーのMac上でMemoria read API（既定 `127.0.0.1:4319`）が稼働している必要があります。APIが停止していても、ブラウジング自体は妨げません。
+・ページ本文を読みません
+・パスワード、フォーム入力、Cookie、閲覧履歴を読みません
+・外部サーバー、当方のサーバー、クラウド、広告・解析サービスへ一切送信しません
+・リモートのコードを読み込みません
+・閲覧しているページの表示や動作には手を加えません
 
-## Single purpose
+問い合わせ先は 127.0.0.1（あなたのMac自身）の1本だけです。
 
-現在のWebページに関係するユーザー自身のMemoriaコンテキストを、Chromeサイドパネルで確認・再利用できるようにする。
+■ 動作条件
 
-## Permission justifications
+この拡張機能は、あなたのMacの中で Memoria の読み取りAPI が動いていることを前提にしています。
+動いていない場合、拡張機能は記憶を表示せず、「つながっていないこと」と「何をすれば直るか」だけを
+サイドパネルに表示します。ブラウジングの妨げにはなりません。
 
-- `activeTab`: ユーザーが拡張機能を開いた現在のタブから、ページタイトルと明示選択テキストを取得するため。
-- `scripting`: 選択テキストを取得する短い関数を現在タブで実行するため。ページ本文は取得しない。
-- `tabs`: 現在タブのタイトルとURLのホスト名を表示・検索手がかりにするため。
-- `sidePanel`: Memoriaコンテキストをサイドパネルで表示するため。
-- `host_permissions`（AIサイト）: 既存の確認付きhandoffをClaude / ChatGPT / Geminiで動かすため。
-- `host_permissions`（127.0.0.1:4319）: ユーザー自身のMac上のMemoria read APIへ接続するため。
-- `nativeMessaging`: 既存のローカルブラウザキャプチャ連携を、ユーザーが設定した場合にのみ動かすため。
+Memoria を持っていない方が入れても、害はありませんが、表示できる内容もありません。
 
-## Data use disclosure
+■ 使い方
 
-Collected data is limited to page title, hostname, and user-selected text when the side panel is opened. It is used only to query the user's local Memoria API and is not sold, advertised against, or sent to external cloud services. The extension does not collect page body text, passwords, form values, cookies, audio, or screen recordings.
+1. Mac で Memoria の読み取りAPI を起動する
+2. ツールバーの Memoria アイコンを押してサイドパネルを開く
+3. ページを移動したら、パネル右上の ↻ を押して読み込み直す
 
-## Support
+■ ソースコード
 
-GitHub: https://github.com/kota1020/memoria-chrome-extension
+https://github.com/kota1020/memoria-chrome-extension
+```
 
-Publisher: Kotaro Murakami (kotaro.murakami)
+### Category
+
+```
+Productivity（サブカテゴリ: Workflow & Planning）
+```
+
+### Language
+
+```
+日本語 (Japanese)
+```
+
+### Graphic assets（`store-assets/` に生成済み）
+
+| 欄 | ファイル | サイズ |
+|---|---|---|
+| Store icon | `icons/icon-128.png` | 128×128 |
+| Screenshot 1 | `store-assets/01-page-memories.png` | 1280×800 |
+| Screenshot 2 | `store-assets/02-resume.png` | 1280×800 |
+| Screenshot 3 | `store-assets/03-local-only.png` | 1280×800 |
+| Small promo tile（任意） | `store-assets/promo-tile-440x280.png` | 440×280 |
+
+### Support URL / Homepage URL
+
+```
+https://github.com/kota1020/memoria-chrome-extension
+```
+
+---
+
+## Privacy タブ
+
+### Single purpose（単一用途の説明）
+
+```
+いま開いているページに関係する、利用者自身のMemoriaの記憶を、Chromeのサイドパネルに表示すること。
+```
+
+### Permission justification（権限ごとの理由）
+
+| 権限 | 貼る文面 |
+|---|---|
+| `activeTab` | 利用者がサイドパネルを開いている現在のタブから、利用者が明示的に選択したテキストだけを読み取り、関連する記憶を絞り込む手がかりに使うため。ページ本文は読み取らない。 |
+| `scripting` | 選択テキストを取得する短い関数（window.getSelection の読み取りのみ）を、現在のタブでのみ実行するため。ページの表示や動作は変更しない。 |
+| `tabs` | サイドパネルが「いま見ているページ」を追えるようにするため。使用するのはタブのタイトルとURLのホスト名だけで、履歴の取得や保存は行わない。 |
+| `sidePanel` | 拡張機能の唯一のUIであるサイドパネルを表示するため。 |
+| ホスト権限 `http://127.0.0.1:4319/*` | 利用者自身の端末で動作するMemoria読み取りAPIへ接続するため。ループバックアドレスであり、端末外への通信は発生しない。他のホスト権限は要求していない。 |
+| リモートコード | 使用していない。すべてのコードはパッケージに同梱されている。 |
+
+### Data usage（データ利用の申告）
+
+チェックする項目:
+
+- **Website content** — チェックする（ページのタイトル、ホスト名、利用者が選択したテキスト）
+
+チェックしない項目: 個人を特定できる情報 / 健康情報 / 金融情報 / 認証情報 / 個人的なやり取り /
+位置情報 / 閲覧履歴 / ユーザーの操作履歴
+
+3つの確認事項（すべて該当）:
+
+- 承認された用途以外にユーザーデータを販売・譲渡しない
+- 商品の単一用途と無関係な目的でユーザーデータを使用・転送しない
+- 信用力の判断や融資目的でユーザーデータを使用・転送しない
+
+補足として貼る文面:
+
+```
+取得するのは、サイドパネルを開いている間の「現在のタブのタイトル」「ホスト名」「利用者が明示的に選択した
+テキスト（最大800文字）」の3点のみ。送信先は利用者自身の端末上の 127.0.0.1:4319 だけで、外部サーバーへは
+一切送信しない。拡張機能側での保存も行わない（chrome.storage を使用していない）。
+```
+
+### Privacy policy URL
+
+```
+https://github.com/kota1020/memoria-chrome-extension/blob/main/PRIVACY.md
+```
+
+---
+
+## Test instructions（審査担当者向け・英語で貼る）
+
+```
+This extension is a client for Memoria, a local-only personal memory service that runs on the
+user's own machine. It only talks to http://127.0.0.1:4319 on the reviewer's machine. It never
+contacts any remote server.
+
+Because that local service is not part of the package, this repository ships a small stub with the
+same response shape so the UI can be reviewed:
+
+  1. git clone https://github.com/kota1020/memoria-chrome-extension
+  2. node tools/mock-memoria-api.mjs        (Node.js 18+, starts http://127.0.0.1:4319)
+  3. Open any web page, click the Memoria toolbar icon to open the side panel.
+     The panel shows demo memory cards derived from the page title and hostname.
+  4. Select some text on the page and press the refresh button in the panel.
+     The selected text is added as an extra hint.
+  5. Stop the stub with Ctrl-C and press refresh again. The panel shows an explanatory
+     "not connected" state instead of any content. This is the expected experience for
+     anyone who does not run Memoria.
+
+No account, login, or payment is required. The stub returns fixed fictional data and reads
+nothing from disk or the network.
+```
+
+---
+
+## 未対応・次のバージョン以降
+
+- **AIの入力欄への記憶の受け渡し（handoff）** — 1.0.0 には含めていない。
+  2026-09-03 に Gemini 実機で確認したところ、送信を止めきる前に Gemini 側が先に送信してしまい、
+  二重送信になりうることが分かったため。claude.ai / chatgpt.com / gemini.google.com への
+  ホスト権限は 1.0.0 では一切要求していない。実装はリポジトリ直下の開発版に残してある。

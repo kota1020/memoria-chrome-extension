@@ -21,3 +21,14 @@ main { padding: 12px 14px 28px; }
 .memory-text, .context-item { margin: 0; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
 .memory-meta { margin-top: 7px; color: #96938a; font-size: 10px; }
 .empty { color: #96938a; font-size: 12px; padding: 4px 2px; }
+.resume-item { border-left: 3px solid #c9d94d; }
+.offline { border-color: #e3d6c9; background: #fffdf9; }
+.offline-title { margin: 0 0 6px; font-size: 13px; font-weight: 700; color: #8a4a2f; }
+.offline-reason { margin: 0 0 8px; font-size: 11px; line-height: 1.5; color: #6d6a61; }
+.offline-lead { margin: 0 0 8px; font-size: 12px; line-height: 1.55; }
+.offline-steps { margin: 0 0 8px; padding-left: 18px; font-size: 12px; line-height: 1.7; }
+.offline-note { margin: 0 0 8px; font-size: 11px; line-height: 1.5; color: #77756c; }
+.offline-link { margin: 0; font-size: 11px; }
+.offline a { color: #4a6b1f; }
+code { font-size: 11px; background: #f0efe9; border-radius: 4px; padding: 1px 4px; }
+.foot { margin: 20px 2px 0; padding-top: 12px; border-top: 1px solid #e8e8e3; color: #96938a; font-size: 10px; line-height: 1.5; }
