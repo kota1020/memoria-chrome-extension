@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><link rel="stylesheet" href="ui.css"><title>memoria の設定</title></head>
+<body class="options">
+  <h1>memoria に渡すもの</h1>
+  <p class="lead">見ているページの<strong>URL・タイトル・本文・滞在時間</strong>を、このMacの中で動く memoria へ渡します。渡し先はループバックアドレス1本だけで、外部サーバーへは送りません。</p>
+
+  <section>
+    <h2>本文を渡さないサイト</h2>
+    <p class="hint">ここに入れたホストは、URLとタイトルだけを渡し、本文は読み取りません。1行に1つ。<code>example.com</code> と書くと <code>www.example.com</code> も対象になります。</p>
+    <textarea id="denylist" rows="6" placeholder="例&#10;mizuhobank.co.jp&#10;paypay.ne.jp"></textarea>
+  </section>
+
+  <section>
+    <h2>何も渡さないサイト</h2>
+    <p class="hint">ここに入れたホストは、URLもタイトルも渡しません。</p>
+    <textarea id="offlist" rows="6" placeholder="例&#10;mail.google.com"></textarea>
+  </section>
+
+  <section>
+    <h2>渡し先</h2>
+    <p class="hint">memoria の受け口。既定のままで構いません。<code>127.0.0.1</code> 以外は指定できません。</p>
+    <input id="endpoint" type="text" spellcheck="false">
+  </section>
+
+  <p class="note">パスワード欄があるページは、この設定に関係なく本文を読み取りません（ログイン画面・銀行・決済など）。シークレットウィンドウでは、Chromeの既定でこの拡張機能は動きません。</p>
+
+  <footer><button id="save" type="button">保存</button><span id="saved" class="saved"></span></footer>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

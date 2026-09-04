@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><link rel="stylesheet" href="ui.css"><title>memoria</title></head>
+<body class="popup">
+  <header>
+    <p class="eyebrow">MEMORIA</p>
+    <label class="switch"><input type="checkbox" id="enabled"><span>ページを渡す</span></label>
+  </header>
+  <dl class="stats">
+    <dt>渡した件数</dt><dd id="sent">—</dd>
+    <dt>待ち</dt><dd id="queued">—</dd>
+    <dt>最後に渡した時刻</dt><dd id="last">—</dd>
+  </dl>
+  <p id="state" class="state"></p>
+  <footer>
+    <button id="flush" type="button">今すぐ渡す</button>
+    <a id="options" href="#">除外する サイト…</a>
+  </footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

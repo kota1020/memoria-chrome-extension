@@ -1,85 +1,71 @@
-# Chrome Web Store 申請フォーム記入内容（v1.0.0）
+# Chrome Web Store 申請フォーム記入内容（2.0.0）
 
-Developer Dashboard の各欄へ、このまま貼れる形にしてある。
-アップロードするZIPは `dist/memoria-context-faucet-1.0.0.zip`（`node scripts/build-store.mjs` で生成）。
+**注意: 2.0.0 は 1.0.0（Memoria Context Faucet／サイドパネル）とは別の製品**。
+同じ掲載枠を作り替えて出す前提で書いてある。名前・説明・スクリーンショットを全部入れ替える。
 
 ---
 
-## Store listing タブ
+## Store listing
 
-### Name（Store title / 最大75文字）
-
-```
-Memoria Context Faucet
-```
-
-### Summary（Short description / 最大132文字）
+### Name
 
 ```
-今開いているページに関係する自分の記憶を、Mac内のMemoriaから思い出すサイドパネル。外部サーバーへの送信はありません。
+memoria for Chrome
 ```
 
-### Description（Detailed description）
+### Summary（最大132文字）
 
 ```
-Memoria Context Faucet は、いま開いているページに関係する「自分の記憶」を、Chromeのサイドパネルに並べる拡張機能です。
+見ているページの正確なURL・タイトル・本文・滞在時間を、あなたのMacの中で動くmemoriaへ渡します。外部サーバーへの送信はありません。
+```
 
-■ 何をするか
+### Description
 
-・現在のページのタイトルとドメイン、そして選択したテキストだけを手がかりにします
-・その手がかりを、あなたのMacの中で動く Memoria の読み取りAPI（http://127.0.0.1:4319）へ渡します
-・返ってきた「このページに関連する記憶」「続きから（作業中・中断中のタスク）」「いまの文脈」を表示します
+```
+memoria for Chrome は、いま見ているページを、あなたのMacの中で動く memoria へ「正確な形で」渡すための拡張機能です。やることはこれだけです。
 
-■ 何をしないか
+■ なぜ要るか
 
-・ページ本文を読みません
-・パスワード、フォーム入力、Cookie、閲覧履歴を読みません
-・外部サーバー、当方のサーバー、クラウド、広告・解析サービスへ一切送信しません
-・リモートのコードを読み込みません
-・閲覧しているページの表示や動作には手を加えません
+memoria は画面を撮って文字認識（OCR）でブラウザの中身を読もうとします。しかしこれはほとんど当たりません。実際の記録では、ページの本文が「Nunrau Cumael Pwvsy.」のような読めない文字列になり、タイトルも「Memoria Context Faucet -…」のように途中で切れます。
 
-問い合わせ先は 127.0.0.1（あなたのMac自身）の1本だけです。
+ブラウザ自身が値を渡せば、この推測が実測に置き換わります。
+
+■ 渡すもの
+
+・ページの正確なURL
+・ページの正確なタイトル（省略なし）
+・ページの本文テキスト（最大20,000文字）
+・そのページが画面に見えていた時間（開始・終了・秒数）
+
+■ 渡さないもの
+
+・パスワード入力欄があるページの本文。ログイン画面・銀行・決済などは、設定に関係なく本文を読み取りません
+・入力欄やフォームに入力した値
+・あなたが除外に登録したサイト
+・シークレットウィンドウの情報
+
+■ 送信先
+
+あなたのMacの中の memoria だけです（既定 http://127.0.0.1:4319）。これはループバックアドレスで、通信は端末の外へ出ません。設定画面でも 127.0.0.1 以外は保存できません。外部サーバー、当方のサーバー、クラウド、広告・解析サービスへは一切送信しません。リモートのコードも読み込みません。
+
+■ 止め方
+
+ツールバーのアイコンからいつでもオフにできます。オフの間は一切読み取りません。サイト単位で「本文だけ渡さない」「何も渡さない」も設定できます。
 
 ■ 動作条件
 
-この拡張機能は、あなたのMacの中で Memoria の読み取りAPI が動いていることを前提にしています。
-動いていない場合、拡張機能は記憶を表示せず、「つながっていないこと」と「何をすれば直るか」だけを
-サイドパネルに表示します。ブラウジングの妨げにはなりません。
-
-Memoria を持っていない方が入れても、害はありませんが、表示できる内容もありません。
-
-■ 使い方
-
-1. Mac で Memoria の読み取りAPI を起動する
-2. ツールバーの Memoria アイコンを押してサイドパネルを開く
-3. ページを移動したら、パネル右上の ↻ を押して読み込み直す
+あなたのMacで memoria が動いていることが前提です。動いていない場合、記録は最大200件だけ手元に待たせ、繋がった時に渡します。ブラウジングの妨げにはなりません。memoria を持っていない方が入れても、害はありませんが、渡す先がありません。
 
 ■ ソースコード
 
 https://github.com/kota1020/memoria-chrome-extension
 ```
 
-### Category
+### Category / Language
 
 ```
-Productivity（サブカテゴリ: Workflow & Planning）
+Workflow & Planning / 日本語 (Japanese)
 ```
-
-### Language
-
-```
-日本語 (Japanese)
-```
-
-### Graphic assets（`store-assets/` に生成済み）
-
-| 欄 | ファイル | サイズ |
-|---|---|---|
-| Store icon | `icons/icon-128.png` | 128×128 |
-| Screenshot 1 | `store-assets/01-page-memories.png` | 1280×800 |
-| Screenshot 2 | `store-assets/02-resume.png` | 1280×800 |
-| Screenshot 3 | `store-assets/03-local-only.png` | 1280×800 |
-| Small promo tile（任意） | `store-assets/promo-tile-440x280.png` | 440×280 |
 
 ### Support URL / Homepage URL
 
@@ -87,48 +73,51 @@ Productivity（サブカテゴリ: Workflow & Planning）
 https://github.com/kota1020/memoria-chrome-extension
 ```
 
+### 掲載画像（未作成・要差し替え）
+
+1.0.0 のスクリーンショットはサイドパネルのもので、2.0.0 では使えない。撮り直しが要る。
+
+- ポップアップ（オン・オフと渡した件数）
+- 設定画面（除外するサイト）
+- OCR の記録と、この拡張機能が渡す記録の並べた比較
+
 ---
 
-## Privacy タブ
+## Privacy
 
-### Single purpose（単一用途の説明）
+### Single purpose
 
 ```
-いま開いているページに関係する、利用者自身のMemoriaの記憶を、Chromeのサイドパネルに表示すること。
+利用者が閲覧しているページの正確なURL・タイトル・本文・滞在時間を、利用者自身の端末上で動作する
+memoria へ渡すこと。
 ```
 
-### Permission justification（権限ごとの理由）
+### Permission justification
 
-| 権限 | 貼る文面 |
+| 権限 | 文面 |
 |---|---|
-| `activeTab` | 利用者がサイドパネルを開いている現在のタブから、利用者が明示的に選択したテキストだけを読み取り、関連する記憶を絞り込む手がかりに使うため。ページ本文は読み取らない。 |
-| `scripting` | 選択テキストを取得する短い関数（window.getSelection の読み取りのみ）を、現在のタブでのみ実行するため。ページの表示や動作は変更しない。 |
-| `tabs` | サイドパネルが「いま見ているページ」を追えるようにするため。使用するのはタブのタイトルとURLのホスト名だけで、履歴の取得や保存は行わない。 |
-| `sidePanel` | 拡張機能の唯一のUIであるサイドパネルを表示するため。 |
-| ホスト権限 `http://127.0.0.1:4319/*` | 利用者自身の端末で動作するMemoria読み取りAPIへ接続するため。ループバックアドレスであり、端末外への通信は発生しない。他のホスト権限は要求していない。 |
+| `storage` | 利用者の設定（オン／オフ、除外サイト、送信先）を保存するため。ページの内容は保存しない。 |
+| `alarms` | 送信先の memoria が起動していない間に溜まった記録を、定期的に渡し直すため。 |
+| ホスト権限 `http://127.0.0.1:4319/*` | 利用者自身の端末で動作する memoria へ渡すため。ループバックアドレスであり端末外への通信は発生しない。これ以外のホスト権限は要求していない。 |
+| コンテンツスクリプト `http://*/*` `https://*/*` | 「どのページをどれだけ見ていたか」を記録することが本拡張機能の単一目的であるため、対象サイトを限定できない。ページの表示・動作は一切変更せず、DOMへの書き込みも行わない。パスワード入力欄があるページでは本文を取得しない。 |
 | リモートコード | 使用していない。すべてのコードはパッケージに同梱されている。 |
 
-### Data usage（データ利用の申告）
+### Data usage
 
 チェックする項目:
 
-- **Website content** — チェックする（ページのタイトル、ホスト名、利用者が選択したテキスト）
+- **Website content** — ページの本文テキスト
+- **Web history** — URL、タイトル、閲覧時刻、滞在時間
 
-チェックしない項目: 個人を特定できる情報 / 健康情報 / 金融情報 / 認証情報 / 個人的なやり取り /
-位置情報 / 閲覧履歴 / ユーザーの操作履歴
-
-3つの確認事項（すべて該当）:
-
-- 承認された用途以外にユーザーデータを販売・譲渡しない
-- 商品の単一用途と無関係な目的でユーザーデータを使用・転送しない
-- 信用力の判断や融資目的でユーザーデータを使用・転送しない
+チェックしない項目: 個人を特定できる情報 / 健康情報 / 金融情報 / 認証情報 /
+個人的なやり取り / 位置情報 / ユーザーの操作履歴
 
 補足として貼る文面:
 
 ```
-取得するのは、サイドパネルを開いている間の「現在のタブのタイトル」「ホスト名」「利用者が明示的に選択した
-テキスト（最大800文字）」の3点のみ。送信先は利用者自身の端末上の 127.0.0.1:4319 だけで、外部サーバーへは
-一切送信しない。拡張機能側での保存も行わない（chrome.storage を使用していない）。
+取得したデータの送信先は、利用者自身の端末上の 127.0.0.1 のみで、外部サーバーへは一切送信しない。
+拡張機能側での永続保存もしない（一時的な送信待ち行列のみ）。パスワード入力欄があるページでは
+本文を取得しない。利用者はいつでも全体をオフにでき、サイト単位の除外も設定できる。
 ```
 
 ### Privacy policy URL
@@ -139,48 +128,23 @@ https://github.com/kota1020/memoria-chrome-extension/blob/main/PRIVACY.md
 
 ---
 
-## Test instructions（審査担当者向け・英語で貼る）
+## Test instructions（英語で貼る）
 
 ```
-This extension is a client for Memoria, a local-only personal memory service that runs on the
-user's own machine. It only talks to http://127.0.0.1:4319 on the reviewer's machine. It never
-contacts any remote server.
+This extension sends the page you are viewing to memoria, a local-only personal memory service
+running on the user's own machine. It only ever talks to http://127.0.0.1:4319 on the machine it
+is installed on. It never contacts any remote server. No account, login, or payment is required.
 
-Because that local service is not part of the package, this repository ships a small stub with the
-same response shape so the UI can be reviewed:
+Because that local service is not part of the package, this repository ships a stub that receives
+the same payload and prints it, so the behaviour can be reviewed end to end:
 
   1. git clone https://github.com/kota1020/memoria-chrome-extension
-  2. node tools/mock-memoria-api.mjs        (Node.js 18+, starts http://127.0.0.1:4319)
-  3. Open any web page, click the Memoria toolbar icon to open the side panel.
-     The panel shows demo memory cards derived from the page title and hostname.
-  4. Select some text on the page and press the refresh button in the panel.
-     The selected text is added as an extra hint.
-  5. Stop the stub with Ctrl-C and press refresh again. The panel shows an explanatory
-     "not connected" state instead of any content. This is the expected experience for
-     anyone who does not run Memoria.
-
-No account, login, or payment is required. The stub returns fixed fictional data and reads
-nothing from disk or the network.
+  2. node tools/mock-memoria-ingest.mjs      (Node.js 18+, listens on http://127.0.0.1:4319)
+  3. Load the extension and browse to any page, then switch tabs or close it.
+     The stub prints the URL, title, character count of the page text, and dwell time.
+  4. Open a page that has a password field (for example https://github.com/login).
+     The stub shows "text_skipped: password_field" - the page body is not captured.
+  5. Open the extension popup and turn it off. Browsing produces no further records at all.
+  6. Stop the stub. Browsing continues normally; records wait in memory (max 200) and are
+     delivered when the stub is started again.
 ```
-
----
-
-## 未対応・次のバージョン以降
-
-- **AIの入力欄への記憶の受け渡し（handoff）** — 1.0.0 には含めていない。1.0.0 の審査が通ってから 1.1.0 で足す。
-
-  2026-09-03 に Gemini 実機で確認したところ、送信を止めきる前に Gemini 側が先に送信してしまい、
-  二重送信になりうることが分かったため外した。**同日、原因の特定と修正まで済んでいる。**
-
-  原因は登録タイミングではなく world の違いだった。拡張の content script は ISOLATED world で動くため、
-  そこから `stopImmediatePropagation()` を呼んでもページ側のリスナーには効かない
-  （`preventDefault()` は共有されるが、Gemini は `defaultPrevented` を見ずに送信する）。
-  `document` を `window` に変えても、`document_start` に前倒ししても同じだった。
-
-  修正は `shared/handoff-gate.js` を MAIN world の content script として document_start に置き、
-  送信を1回止める役だけをそこに持たせる形。何を渡すかの判断とパネルは ISOLATED 側のまま。
-  Gemini 実機で、渡す場合・渡さない場合とも「1回だけ送信される」ことを確認済み（開発版 0.4.0）。
-
-  1.1.0 で出す場合、`https://claude.ai/*` `https://chatgpt.com/*` `https://chat.openai.com/*`
-  `https://gemini.google.com/*` のホスト権限と MAIN world の content script が増えるため、
-  権限理由とプライバシーポリシー（入力欄の下書きを読む点）を書き足す必要がある。

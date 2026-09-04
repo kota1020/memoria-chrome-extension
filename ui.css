@@ -1,0 +1,32 @@
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif; color: #222; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #f7f7f5; }
+code { font-size: .92em; background: #eeede7; border-radius: 4px; padding: 1px 5px; }
+
+/* ---- popup ---- */
+.popup { width: 300px; padding: 14px 16px 12px; }
+.popup header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.eyebrow { margin: 0; color: #77756c; font-size: 10px; letter-spacing: .12em; font-weight: 700; }
+.switch { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.stats { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; margin: 0 0 10px; background: #fff; border: 1px solid #e5e4de; border-radius: 10px; padding: 10px 12px; }
+.stats dt { color: #77756c; font-size: 11px; }
+.stats dd { margin: 0; font-size: 12px; font-weight: 650; text-align: right; }
+.state { margin: 0 0 12px; font-size: 11px; line-height: 1.5; color: #6d6a61; }
+.state.error { color: #a13d32; }
+.state.off { color: #8a7a2f; }
+.popup footer { display: flex; align-items: center; justify-content: space-between; }
+button { border: 0; background: #1f2229; color: #fff; border-radius: 8px; padding: 7px 12px; font: inherit; font-size: 12px; cursor: pointer; }
+.popup a { color: #4a6b1f; font-size: 11px; }
+
+/* ---- options ---- */
+.options { max-width: 620px; margin: 0 auto; padding: 32px 24px 60px; }
+h1 { font-size: 20px; letter-spacing: -.02em; margin: 0 0 8px; }
+h2 { font-size: 14px; margin: 0 0 4px; }
+.lead { font-size: 13px; line-height: 1.7; color: #4a4840; margin: 0 0 22px; }
+.options section { background: #fff; border: 1px solid #e5e4de; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; }
+.hint { font-size: 11px; line-height: 1.6; color: #77756c; margin: 0 0 8px; }
+textarea, input[type=text] { width: 100%; font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; border: 1px solid #dcdad2; border-radius: 8px; padding: 8px 10px; background: #fbfbf9; resize: vertical; }
+.note { font-size: 11px; line-height: 1.6; color: #77756c; background: #fffdf9; border: 1px solid #e3d6c9; border-radius: 8px; padding: 10px 12px; }
+.options footer { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.saved { font-size: 11px; color: #4a6b1f; }
+.saved.error { color: #a13d32; }
